@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+{% block page_content %}
+<div class="container-sm" align="center">
+    <br>
+    <form method="post">
+        {% csrf_token %}
+        <div class="col-md-6">
+            <div class="h-100 p-5 text-white bg-dark rounded-3">
+                <h2>Вы действительно хотите удалить задачу "{{ object }}"?</h2>
+                <br>
+                <button type="submit" class="btn btn-warning">Удалить</button>
+                <a href="{% url 'task' tasks_id %}" class="btn btn-secondary">Назад</a>
+            </div>
+        </div>
+    </form>
+
+</div>
+{% endblock %}
+</body>
+</html>

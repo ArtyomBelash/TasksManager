@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+<div class="container">
+    <br>
+    <br>
+    <br>
+    <div class="row justify-content-center">
+        <div class="col-md-2">
+            <div class="content-section">
+                <div class="media">
+                    <img class="rounded-circle account-img" src="{{ profile.image.url }}">
+                    <div class="media-body">
+                        <h2 align="center" class="account-heading">{{ profile.user.username }}</h2>
+                        <p class="text-secondary">{{ profile.user.email }}</p>
+                        <div align="center">
+                        {% if request.user.is_authenticated %}
+                            {% if profile.user in friend and friend.count > 0 %}
+                            <a type="btn" class="btn btn-danger" href="{% url 'remove_friend' profile.slug %}">Удалить
+                                из друзей</a>
+                            {% else %}
+                            <a type="btn" class="btn btn-danger" href="{% url 'add_friend' profile.slug %}">Добавить в
+                                друзья</a>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

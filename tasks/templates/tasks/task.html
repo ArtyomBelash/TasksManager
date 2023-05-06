@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block page_content %}
+<br>
+<div class="container">
+    <div class="table-responsive">
+        <table border="2" class="table table-hover table-striped table-borderless table caption-top">
+            <thead class="table-dark">
+            <tr align="center">
+                <th>Заголовок</th>
+                <th>Описание</th>
+                <th>Добавлено</th>
+                <th>Срок</th>
+                <th>Завершено</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr onclick="window.location='{% url 'task' task.pk %}';" class="clickable-row" style="cursor: pointer;">
+                <td align="center">{{task.title}}</td>
+                <td align="center">{{ task.description| truncatewords:50 }}</td>
+                <td align="center" >{{ task.updated }}</td>
+                <td align="center">{{ task.date }}</td>
+                {% if task.finished == False %}
+                <td align="center">&#x2717;</td>
+                {% else %}
+                <td align="center">&#x2713;</td>
+                {% endif %}
+            </tr>
+            </tbody>
+
+        </table>
+        <div align="center">
+            <div class="btn-group" role="group" aria-label="Basic">
+                <a href="{% url 'showtasks'  %}" class="btn btn-dark">К списку задач</a>
+                <a href="{% url 'update_tasks'  task.pk %}" class="btn btn-dark">Обновить задачу</a>
+                <a href="{% url 'delete' task.pk %}" class="btn btn-warning">Удалить задачу</a>
+            </div>
+        </div>
+        {% endblock %}
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+<div class="container">
+    <form method="post" class="form-control">
+        {% csrf_token %}
+        <!--    {% for i in form %}-->
+        <!--    <p><label class="form-text" for="{{ i.id_for_label }}">-->
+        <!--        {% if i.label != 'Я не робот' %}-->
+        <!--        {{i.label}}:-->
+        <!--        {% endif %}-->
+        <!--    </label>{{ i }}</p>-->
+        <!--    <div class="form-error">{{i.errors}}</div>-->
+        <!--    {% endfor %}-->
+        {% load bootstrap5 %}
+        {% bootstrap_form form %}
+        <button type="submit" class="btn btn-success">Зарегистрироваться</button>
+        <div class="top pt-3">
+            <small>
+                Есть аккаунт? <a class="ml-2" style="color: green;" href="{% url 'login' %}">Войти</a>
+            </small>
+            {% endblock %}
+        </div>
+    </form>
+</div>

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+<div class="container">
+    <form method="post" class="form-control">
+        {% csrf_token %}
+        {% load bootstrap5 %}
+        {% bootstrap_form form %}
+        <button type="submit" class="btn btn-success">Авторизоваться</button>
+    </form>
+</div>
+{% endblock %}

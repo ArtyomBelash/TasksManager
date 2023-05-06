@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block page_content %}
+{% if profiles %}
+<div class="container">
+    <br>
+    <div class="row">
+        {% for p in profiles %}
+        <div class="col-md-4">
+                <div class="card mb-2">
+                <div class="card-body" align="center">
+                    <a href="{% url 'show_profile' p.profile.slug %}">
+                        <img class="rounded-circle account-img" width="300" height="300"
+                             src="{{ p.profile.image.url }}"></a>
+                    <h1>{{ p.username }}</h1>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <h2 align="center">
+            К сожалению, поиск не дал никаких результатов. Попробуйте изменить Ваш запрос.
+        </h2>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

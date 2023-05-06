@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block page_content %}
+{% if tasks %}
+<div class="container">
+   <div class="container">
+    <div class="table-responsive">
+        <table border="2" class="table table-hover table-striped table-borderless table caption-top">
+            <caption>Ваши активные задачи,<b> {{request.user.username}}:</b></caption>
+            <thead class="table-dark">
+            <tr align="center">
+                <th>Заголовок</th>
+                <th>Описание</th>
+                <th>Добавлено</th>
+                <th>Срок</th>
+                <th>Завершено</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for task in tasks %}
+            <tr onclick="window.location='{% url 'task' task.pk %}';" class="clickable-row" style="cursor: pointer;">
+                <td align="center">{{task.title}}</td>
+                <td align="center">{{ task.description| truncatewords:50 }}</td>
+                <td align="center" >{{ task.updated }}</td>
+                <td align="center">{{ task.date }}</td>
+                {% if task.finished == False %}
+                <td align="center">&#x2717;</td>
+                {% else %}
+                <td align="center">&#x2713;</td>
+                {% endif %}
+            </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+        {% else %}
+        <h2 align="center">
+            К сожалению, поиск не дал никаких результатов. Попробуйте изменить Ваш запрос.
+        </h2>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

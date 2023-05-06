@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load bootstrap5 %}
+{% block page_content %}
+<div class="container" >
+    <br>
+    <div class="row justify-content-center">
+        <div class="col-md-3">
+            <img  src="{{ profile.image.url }}" alt="Изображение профиля" class="rounded-circle img-thumbnail">
+        </div>
+        <div class="col-md-3">
+            <h1>{{ user.username }}</h1>
+            <p class="lead">{{ user.email }}</p>
+            <p>Вы подписаны на <b>{{ friends.count }}</b> пользователей.</p>
+            <button class="btn btn-warning" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                    aria-controls="offcanvasRight">Мои подписки
+            </button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
+                 aria-labelledby="offcanvasRightLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Мои подписки</h5>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                            aria-label="Закрыть"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <div>
+                        {% if friends %}
+                        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" method="post" action="{% url 'search' %}">
+                            {% csrf_token %}
+                            <input type="search" class="form-control form-control-dark" placeholder="Поиск"
+                                   name="search"
+                                   aria-label="Search">
+                        </form>
+                        <ul>
+                            {% for friend in friends.all %}
+                            <li>
+                                <a href="{% url 'show_profile' friend.profile.slug %}">{{friend.username }}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <p>Вы ни на кого не подипсаны</p>
+                        Попробуйте найти кого нибудь?
+                        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" method="post" action="{% url 'search' %}">
+                            {% csrf_token %}
+                            <input type="search" class="form-control form-control-dark" placeholder="Поиск"
+                                   name="search"
+                                   aria-label="Search">
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <p>У Вас <b>{{tasks|length}}</b> задачи</p>
+            <a href="{% url 'showtasks'  %}" class="btn btn-dark">К списку задач</a>
+        </div>
+    </div>
+    <div align="center">
+        <button  class="btn btn-dark mt-3" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseExample"
+                aria-expanded="false" aria-controls="collapseExample">
+            Обновить профиль
+        </button> </div>
+    <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+            <div class="container">
+                <form method="POST" enctype="multipart/form-data" action="{{profile.get_absolute_url}}"
+                      class="form-group">
+                    {% csrf_token %}
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4">Информация</legend>
+                        {% bootstrap_form u_form %}
+                        {% bootstrap_form p_form %}
+                    </fieldset>
+                    <div align="center">
+                        <button class="btn btn-outline-success" type="submit">Сохранить изменения</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

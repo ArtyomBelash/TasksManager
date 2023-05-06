@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load bootstrap5 %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block page_content %}
+<div class="container-sm">
+    <form method="post" enctype="multipart/form-data" class="form-row">
+        {% bootstrap_form form %}
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success">Oбновить задачу</button>
+    </form>
+</div>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block page_content %}
+<br>
+{% if request.user.is_authenticated %}
+<div class="container">
+    <div class="table-responsive">
+        <table border="2" class="table table-hover table-striped table-borderless table caption-top">
+            <caption>Ваши активные задачи,<b> {{request.user.username}}:</b></caption>
+            <thead class="table-dark">
+            <tr align="center">
+                <th>Заголовок</th>
+                <th>Описание</th>
+                <th>Добавлено</th>
+                <th>Срок</th>
+                <th>Завершено</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for task in tasks %}
+            <tr onclick="window.location='{% url 'task' task.pk %}';" class="clickable-row" style="cursor: pointer;">
+                <td align="center">{{task.title}}</td>
+                <td align="center">{{ task.description| truncatewords:50 }}</td>
+                <td align="center" >{{ task.updated }}</td>
+                <td align="center">{{ task.date }}</td>
+                {% if task.finished == False %}
+                <td align="center">&#x2717;</td>
+                {% else %}
+                <td align="center">&#x2713;</td>
+                {% endif %}
+            </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+
+        <a href="{% url 'addtask' %}" class="btn btn-dark">Добавить задачу</a>
+
+        <button class="btn btn-warning" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop"
+                aria-controls="offcanvasTop">Завершенные задачи
+        </button>
+        <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasExampleLabel">Ваши завершенные задачи, {{request.user.username}}</h5>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                        aria-label="Закрыть"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div>
+                    Всего выполненных задач: <b>{{ history_of_tasks.count }}</b>
+                    <table border="2" class="table table-hover table-striped table-bordered">
+                        <thead class="table-dark">
+                        <tr align="center">
+                            <th>Заголовок</th>
+                            <th>Описание</th>
+                            <th>Добавлено</th>
+                            <th>Срок</th>
+                            <th>Завершено</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for task in history_of_tasks %}
+                        <tr onclick="window.location='{% url 'task' task.pk %}';" class="clickable-row"
+                            style="cursor: pointer;">
+                            <td align="center">{{task.title}}</td>
+                            <td align="center">{{ task.description| truncatewords:50 }}</td>
+                            <td align="center">{{ task.updated }}</td>
+                            <td align="center">{{ task.date }}</td>
+                            {% if task.finished == False %}
+                            <td align="center">&#x2717;</td>
+                            {% else %}
+                            <td align="center">&#x2713;</td>
+                            {% endif %}
+                        </tr>
+                        </tbody>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+
+<div class="text-center">
+    <h2>Если задача поставлена - она будет сделана</h2>
+    <p>Наш сервис поможет делегировать поручения, напомнит о сроках, сформирует отчеты. Бесплатно и без ограничений!<br>
+    </p>
+    <p>Зарегистрируйтесь или войдите, чтобы воспользоваться сервисом.<br></p>
+</div>
+
+{% endif %}
+{% endblock %}
+</body>
+</html>
