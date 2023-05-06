@@ -9,18 +9,6 @@ from .models import Tasks, Profile
 from django.contrib.auth.models import User
 
 
-# def showtasks(request):
-#     if request.user.is_authenticated:
-#         user = request.user
-#         tasks = Tasks.objects.filter(user=request.user)
-#         context = {
-#             'user': user,
-#             'tasks': tasks,
-#         }
-#         return render(request, 'tasks/showtasks.html', context=context)
-#     return render(request, 'tasks/showtasks.html')
-#
-
 class ShowTasks(ListView):
     context_object_name = 'tasks'
     template_name = 'tasks/showtasks.html'
