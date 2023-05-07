@@ -7,9 +7,9 @@ environ.Env.read_env(env.str(root(), '.env'))
 BASE_DIR = root()
 
 SECRET_KEY = env.str('SECRET_KEY')
-DEBUG = True
-# ALLOWED_HOSTS = env.str('ALLOWED_HOSTS', default='').split(' ')
-ALLOWED_HOSTS = []
+DEBUG = env.bool('DEBUG', default=False)
+ALLOWED_HOSTS = env.str('ALLOWED_HOSTS', default='').split(' ')
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
